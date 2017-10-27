@@ -17,7 +17,6 @@
 package org.springframework.cloud.gcp.storage.autoconfig;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -28,17 +27,17 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gcp.core.GcpProperties;
-import org.springframework.cloud.gcp.core.GcpScope;
 import org.springframework.cloud.gcp.storage.GcpStorageProperties;
 import org.springframework.cloud.gcp.storage.GoogleStorageProtocolResolver;
+import org.springframework.cloud.gcp.storage.GoogleStorageProtocolResolverSettings;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * An auto-configuration for Google {@link Storage} bean definition. Also it
- * {@link Import} a {@link GoogleStorageProtocolResolver} to register it
- * with the {@code DefaultResourceLoader}.
+ * An auto-configuration for Google {@link GoogleStorageProtocolResolverSettings} bean
+ * definition. Also it {@link Import} a {@link GoogleStorageProtocolResolver} to register
+ * it with the {@code DefaultResourceLoader}.
  *
  * @author Vinicius Carvalho
  * @author Artem Bilan
@@ -46,25 +45,22 @@ import org.springframework.context.annotation.Import;
  * @see GoogleStorageProtocolResolver
  */
 @Configuration
-@ConditionalOnClass(Storage.class)
+@ConditionalOnClass({ GoogleStorageProtocolResolverSettings.class, Storage.class })
 @EnableConfigurationProperties({GcpProperties.class, GcpStorageProperties.class})
 @Import(GoogleStorageProtocolResolver.class)
 public class StorageAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public static Storage storage(
-			CredentialsProvider credentialsProvider,
+	public static Storage storage(CredentialsProvider credentialsProvider,
 			GcpStorageProperties gcpStorageProperties) throws IOException {
 		return StorageOptions.newBuilder()
-				.setCredentials(gcpStorageProperties.getCredentialsLocation() != null
-						? GoogleCredentials.fromStream(
-								gcpStorageProperties.getCredentialsLocation().getInputStream())
-						.createScoped(Collections.singletonList(
-								GcpScope.STORAGE_READ_WRITE.getUrl()))
+				.setCredentials(gcpStorageProperties.getCredentials() != null
+						? GoogleCredentials
+								.fromStream(gcpStorageProperties.getCredentials()
+										.getLocation().getInputStream())
+								.createScoped(gcpStorageProperties.getCredentials().getScopes())
 						: credentialsProvider.getCredentials())
-				.build()
-				.getService();
+				.build().getService();
 	}
-
 }

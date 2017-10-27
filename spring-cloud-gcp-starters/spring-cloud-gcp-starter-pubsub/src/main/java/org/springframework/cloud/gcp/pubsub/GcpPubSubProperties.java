@@ -16,8 +16,11 @@
 
 package org.springframework.cloud.gcp.pubsub;
 
+import java.util.Collections;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.io.Resource;
+import org.springframework.cloud.gcp.core.AbstractCredentialsProperty;
+import org.springframework.cloud.gcp.core.GcpScope;
 
 @ConfigurationProperties("spring.cloud.gcp.pubsub")
 public class GcpPubSubProperties {
@@ -27,7 +30,7 @@ public class GcpPubSubProperties {
 
 	private String projectId;
 
-	private Resource credentialsLocation;
+	private Credentials credentials;
 
 	public int getSubscriberExecutorThreads() {
 		return this.subscriberExecutorThreads;
@@ -53,11 +56,17 @@ public class GcpPubSubProperties {
 		this.projectId = projectId;
 	}
 
-	public Resource getCredentialsLocation() {
-		return this.credentialsLocation;
+	public Credentials getCredentials() {
+		return this.credentials;
 	}
 
-	public void setCredentialsLocation(Resource credentialsLocation) {
-		this.credentialsLocation = credentialsLocation;
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
+	}
+
+	public static class Credentials extends AbstractCredentialsProperty {
+		public Credentials() {
+			setScopes(Collections.singletonList(GcpScope.PUBSUB.getUrl()));
+		}
 	}
 }

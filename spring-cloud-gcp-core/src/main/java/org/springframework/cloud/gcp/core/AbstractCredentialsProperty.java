@@ -16,35 +16,34 @@
 
 package org.springframework.cloud.gcp.core;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.util.List;
+
+import org.springframework.core.io.Resource;
 
 /**
- * @author Vinicius Carvalho
- * @author João André Martins
+ * To be extended by property class subclasses and allow e.g., a "credentials.location" property
+ * notation.
+ *
+ * @author João Andre Martins
  */
-@ConfigurationProperties("spring.cloud.gcp")
-public class GcpProperties {
+public abstract class AbstractCredentialsProperty {
 
-	private String projectId;
+	private Resource location;
+	private List<String> scopes;
 
-	private Credentials credentials = new Credentials();
-
-	public String getProjectId() {
-		return this.projectId;
+	public Resource getLocation() {
+		return this.location;
 	}
 
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
+	public void setLocation(Resource location) {
+		this.location = location;
 	}
 
-	public Credentials getCredentials() {
-		return this.credentials;
+	public List<String> getScopes() {
+		return this.scopes;
 	}
 
-	public void setCredentials(Credentials credentials) {
-		this.credentials = credentials;
-	}
-
-	public static class Credentials extends AbstractCredentialsProperty {
+	public void setScopes(List<String> scopes) {
+		this.scopes = scopes;
 	}
 }
