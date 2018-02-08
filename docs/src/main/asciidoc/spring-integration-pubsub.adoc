@@ -17,6 +17,13 @@ Maven coordinates, using Spring Cloud GCP BOM:
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-gcp-pubsub</artifactId>
 </dependency>
+
+<!-- Include Spring Integration Core if not already done -->
+<dependency>
+    <groupId>org.springframework.integration</groupId>
+    <artifactId>spring-integration-core</artifactId>
+</dependency>
+
 ----
 
 Gradle coordinates:
