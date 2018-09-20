@@ -27,6 +27,7 @@ import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.StreamUtils;
@@ -43,6 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author João André Martins
  */
 @RestController
+@Slf4j
 public class VisionController {
 	@Autowired
 	private ResourceLoader resourceLoader;
@@ -59,6 +61,7 @@ public class VisionController {
 	 */
 	@GetMapping("/vision")
 	public String uploadImage(String imageUrl) throws Exception {
+		log.info("Received URL: {}", imageUrl);
 		// Copies the content of the image to memory.
 		byte[] imageBytes = StreamUtils.copyToByteArray(this.resourceLoader.getResource(imageUrl).getInputStream());
 
