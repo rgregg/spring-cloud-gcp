@@ -27,5 +27,38 @@
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-vision</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-gcp-starter-trace</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-gcp-starter-logging</artifactId>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>0.9.10</version>
+                <configuration>
+                    <to>
+                        <image>saturnism/spring-cloud-gcp-vision</image>
+                    </to>
+                    <container>
+                        <jvmFlags>
+                            <jvmFlag>-agentpath:/debugger/cdbg_java_agent.so=--logtostderr=1</jvmFlag>
+                            <jvmFlag>-Dcom.google.cdbg.module=${project.artifactId}</jvmFlag>
+                            <jvmFlag>-Dcom.google.cdbg.version=${project.version}</jvmFlag>
+                        </jvmFlags>
+                    </container>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>

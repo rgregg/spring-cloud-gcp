@@ -1,0 +1,31 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: vision-knative
+  namespace: default
+spec:
+  runLatest:
+    configuration:
+      build:
+        serviceAccountName: riff-build
+        source:
+          git:
+            url: https://github.com/saturnism/spring-cloud-gcp.git
+            revision: s1p-demo
+        volumes:
+        - name: persistent-cache
+          persistentVolumeClaim:
+            claimName: jib-build-cache
+        template:
+          name: jib-maven
+          arguments:
+          - name: CACHE
+            value: persistent-cache
+          - name: IMAGE
+            value: &image gcr.io/springone-test/vision-knative
+          - name: DIRECTORY
+            value: spring-cloud-gcp-samples/spring-cloud-gcp-vision-api-sample
+      revisionTemplate:
+        spec:
+          container:
+            image: *image
