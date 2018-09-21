@@ -2,13 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Google Cloud Vision API with Spring code sample</title>
+    <title>Google Cloud Vision API using Spring on Knative</title>
+    <style type="text/css">
+        body {
+            background-color: ghostwhite;
+            font-family: 'DejaVu Sans', sans-serif;
+            margin: 30px 50px;
+        }
+        b {
+            font-size: 1.2em;
+        }
+        input[type=text] {
+            padding: 2px 3px 1px !important;
+            width: 650px;
+            font-size: 1.8em;
+            margin: 0;
+            border: 1px solid #666;
+            vertical-align: bottom;
+        }
+        .button
+        {
+            padding: 10px 15px 11px !important;
+            font-size: 1em !important;
+            background-color: #666;
+            font-weight: bold;
+            text-shadow: 1px 1px #666;
+            color: #ffffff;
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border: 1px solid #666;
+            cursor: pointer;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+            -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+            -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+        }
+    </style>
 </head>
 <body>
 <div>
+    <h1>Google Cloud Vision API using Spring on Knative</h1>
     <form action="/vision">
-        URL of image to be uploaded: <input type="text" name="imageUrl"/> <input type="submit" />
+        <b>Image URL:</b><br />
+        <input type="text" id="imageUrl" name="imageUrl"/>
+        <input type="submit" value="Ok" class="button" />
     </form>
+    <p>
+        <a href="https://i.ytimg.com/vi/tussa6KKCZU/maxresdefault.jpg">Sample</a>
+    </p>
 </div>
 </body>
 </html>
