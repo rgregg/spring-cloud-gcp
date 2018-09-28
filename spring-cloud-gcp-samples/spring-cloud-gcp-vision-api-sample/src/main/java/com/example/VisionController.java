@@ -74,7 +74,7 @@ public class VisionController {
 
 		StringBuilder responseBuilder = new StringBuilder("<table border=\"1\">");
 
-		responseBuilder.append("<tr><th>description</th><th>score</th></tr>");
+		responseBuilder.append("<tr><th>Description</th><th>Score</th></tr>");
 
 		// We're only expecting one response.
 		if (responses.getResponsesCount() == 1) {
